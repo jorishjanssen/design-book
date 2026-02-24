@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>We at Luscii</title>
+  <style>
+    @font-face {
+      font-family: 'DIN Pro';
+      src: local('DIN Pro Light'), url('../fonts/dinpro_light.otf') format('opentype');
+      font-weight: 300;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'DIN Pro';
+      src: local('DIN Pro'), url('../fonts/dinpro.otf') format('opentype');
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'DIN Pro';
+      src: local('DIN Pro Medium'), url('../fonts/dinpro_medium.otf') format('opentype');
+      font-weight: 500;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'DIN Pro';
+      src: local('DIN Pro Bold'), url('../fonts/dinpro_bold.otf') format('opentype');
+      font-weight: 700;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --text: #333;
+      --text-light: #666;
+      --bg: #fff;
+      --accent: #bbb;
+      --max-width: 1100px;
+      --section-gap: 7rem;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'DIN Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+      border-radius: 6px;
+    }
+
+    /* Progress bar */
+    .progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 2px;
+      background: var(--text);
+      z-index: 100;
+      width: 0;
+      transition: width 0.15s linear;
+    }
+
+    /* Cover */
+    .cover {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      padding: 2rem;
+    }
+
+    .cover .title {
+      font-size: clamp(2.5rem, 7vw, 5.5rem);
+      font-weight: 300;
+      letter-spacing: 0.03em;
+      line-height: 1.15;
+      margin-bottom: 2rem;
+    }
+
+    .cover .brand {
+      font-size: 0.7rem;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .cover .scroll-hint {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--accent);
+      font-size: 0.65rem;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    .scroll-hint::after {
+      content: '';
+      width: 1px;
+      height: 40px;
+      background: var(--accent);
+      animation: scroll-line 2s ease-in-out infinite;
+    }
+
+    @keyframes scroll-line {
+      0% { transform: scaleY(0); transform-origin: top; }
+      50% { transform: scaleY(1); transform-origin: top; }
+      51% { transform: scaleY(1); transform-origin: bottom; }
+      100% { transform: scaleY(0); transform-origin: bottom; }
+    }
+
+    /* Centered text blocks */
+    .text-block {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: var(--section-gap) 2rem;
+    }
+
+    .text-block.narrow {
+      max-width: 580px;
+    }
+
+    .text-block h2 {
+      font-size: clamp(1.4rem, 2.5vw, 2.1rem);
+      font-weight: 300;
+      line-height: 1.35;
+      margin-bottom: 1.5rem;
+    }
+
+    .text-block h3 {
+      font-size: clamp(1rem, 1.5vw, 1.15rem);
+      font-weight: 500;
+      margin-bottom: 0.75rem;
+      margin-top: 2.5rem;
+    }
+
+    .text-block h3:first-of-type {
+      margin-top: 0;
+    }
+
+    .text-block p {
+      font-size: clamp(0.9rem, 1.2vw, 1rem);
+      font-weight: 400;
+      line-height: 1.9;
+      color: var(--text-light);
+      margin-bottom: 1rem;
+    }
+
+    .text-block p:last-child {
+      margin-bottom: 0;
+    }
+
+    .text-block .lead {
+      font-size: clamp(1rem, 1.5vw, 1.15rem);
+      font-weight: 300;
+      line-height: 1.8;
+      color: var(--text);
+    }
+
+    .text-block .highlight {
+      font-weight: 300;
+      font-size: clamp(1.2rem, 2vw, 1.6rem);
+      line-height: 1.5;
+      color: var(--text);
+      margin: 2rem 0;
+    }
+
+    .text-block ul {
+      list-style: none;
+      padding: 0;
+      margin: 1rem 0;
+    }
+
+    .text-block ul li {
+      font-size: clamp(0.9rem, 1.2vw, 1rem);
+      font-weight: 400;
+      line-height: 1.9;
+      color: var(--text-light);
+      padding-left: 1.25rem;
+      position: relative;
+      margin-bottom: 0.5rem;
+    }
+
+    .text-block ul li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.75em;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    .text-block ol {
+      padding-left: 1.25rem;
+      margin: 1rem 0;
+    }
+
+    .text-block ol li {
+      font-size: clamp(0.9rem, 1.2vw, 1rem);
+      font-weight: 400;
+      line-height: 1.9;
+      color: var(--text-light);
+      margin-bottom: 0.5rem;
+      padding-left: 0.25rem;
+    }
+
+    /* Principle blocks */
+    .principle {
+      margin-bottom: 1.25rem;
+    }
+
+    .principle strong {
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    .principle span {
+      color: var(--text-light);
+    }
+
+    /* Full-width photo */
+    .photo-break {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* Side-by-side: photo + text */
+    .side-by-side {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: var(--section-gap) 2rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    .side-by-side.reversed {
+      direction: rtl;
+    }
+
+    .side-by-side.reversed > * {
+      direction: ltr;
+    }
+
+    .side-by-side .side-photo {
+      position: sticky;
+      top: 2rem;
+    }
+
+    .side-by-side .side-text h2 {
+      font-size: clamp(1.3rem, 2.2vw, 1.9rem);
+      font-weight: 300;
+      line-height: 1.35;
+      margin-bottom: 1.25rem;
+    }
+
+    .side-by-side .side-text p {
+      font-size: clamp(0.88rem, 1.1vw, 0.96rem);
+      font-weight: 400;
+      line-height: 1.9;
+      color: var(--text-light);
+      margin-bottom: 1rem;
+    }
+
+    .side-by-side .side-text ul {
+      list-style: none;
+      padding: 0;
+      margin: 1rem 0;
+    }
+
+    .side-by-side .side-text ul li {
+      font-size: clamp(0.88rem, 1.1vw, 0.96rem);
+      font-weight: 400;
+      line-height: 1.9;
+      color: var(--text-light);
+      padding-left: 1.25rem;
+      position: relative;
+      margin-bottom: 0.5rem;
+    }
+
+    .side-by-side .side-text ul li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.75em;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    /* Two-column pledges */
+    .pledge-grid {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 2rem var(--section-gap);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+    }
+
+    .pledge-col h3 {
+      font-size: clamp(0.95rem, 1.3vw, 1.08rem);
+      font-weight: 500;
+      margin-bottom: 1.25rem;
+    }
+
+    .pledge-col ol {
+      padding-left: 1.25rem;
+    }
+
+    .pledge-col ol li {
+      font-size: clamp(0.85rem, 1.1vw, 0.93rem);
+      font-weight: 400;
+      line-height: 1.85;
+      color: var(--text-light);
+      margin-bottom: 0.6rem;
+      padding-left: 0.25rem;
+    }
+
+    /* Fade-in animations */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Closing */
+    .closing {
+      max-width: 620px;
+      margin: 0 auto;
+      padding: var(--section-gap) 2rem;
+    }
+
+    .closing p {
+      font-size: clamp(0.95rem, 1.4vw, 1.08rem);
+      font-weight: 400;
+      line-height: 2.1;
+      color: var(--text-light);
+      margin-bottom: 1.5rem;
+    }
+
+    .closing .sign-off {
+      font-size: 0.7rem;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-top: 3rem;
+    }
+
+    /* Footer */
+    footer {
+      padding: 3rem 2rem;
+      text-align: center;
+      font-size: 0.68rem;
+      font-weight: 400;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      :root {
+        --section-gap: 4.5rem;
+      }
+
+      .side-by-side {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .side-by-side .side-photo {
+        position: static;
+      }
+
+      .side-by-side.reversed {
+        direction: ltr;
+      }
+
+      .pledge-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="progress-bar" id="progress"></div>
+
+<!-- Cover -->
+<section class="cover">
+  <div class="title fade-in">We at Luscii</div>
+  <div class="brand fade-in">A living handbook</div>
+  <div class="scroll-hint">Scroll</div>
+</section>
+
+<!-- Opening -->
+<section class="text-block fade-in">
+  <p class="highlight">
+    We believe in a strong, inclusive culture that keeps us together and on the right track. You are our culture — so live by these values and help shape what comes next.
+  </p>
+  <p>
+    This handbook gives you the freedom to act in a way that aligns with our values, our rules (we try to keep them simple), and a collaborative, respectful spirit. It's a living document — a balance between the needs of the people and the needs of the company, refined and improved over time.
+  </p>
+</section>
+
+<!-- Photo break -->
+<div class="photo-break fade-in">
+  <img src="../images/photos/img-022.png" alt="" loading="lazy">
+</div>
+
+<!-- A Conscious Culture -->
+<section class="text-block fade-in">
+  <h2>A Conscious Culture</h2>
+  <p>Our culture is designed to help you prosper as a human being and experience exceptional personal growth — with work as the vehicle — while generating great business outcomes and, above all, having real impact on our purpose. We believe both are inextricably linked.</p>
+  <p>Our culture has one requirement: a growth mindset. A willingness to learn, try new things, fail, and push yourself to grow. People who have that will thrive. Those who don't, won't.</p>
+  <p class="highlight">You don't work endless hours for the sake of working. You make every hour at work count, so you can make every hour count when you're not working.</p>
+</section>
+
+<!-- The Pledge -->
+<section class="text-block narrow fade-in">
+  <h2>The Pledge</h2>
+</section>
+
+<div class="pledge-grid fade-in">
+  <div class="pledge-col">
+    <h3>Luscii commits to</h3>
+    <ol>
+      <li>Putting the team's health and well-being first.</li>
+      <li>Keeping standards for execution high, but fair.</li>
+      <li>Giving feedback frequently, consistently, and candidly.</li>
+      <li>Treating time with the company as one moment in a thriving career.</li>
+      <li>Making culture deliberate — never accidental.</li>
+      <li>Inviting everyone to take ownership, and expecting them to act as if it were their own company.</li>
+      <li>Making work hours count so we don't have to count work hours.</li>
+      <li>Encouraging personality, fun, self-care, and a personal life.</li>
+      <li>Welcoming people of all backgrounds, beliefs, and philosophies.</li>
+      <li>Caring deeply about impact — for the world, and for its people.</li>
+    </ol>
+  </div>
+  <div class="pledge-col">
+    <h3>Every individual commits to</h3>
+    <ol>
+      <li>Put their health and well-being first.</li>
+      <li>Keep the standards of their work high, but fair.</li>
+      <li>Give feedback frequently, fairly, and candidly.</li>
+      <li>Cultivate a life outside of work.</li>
+      <li>Be conscious about culture in everything they do.</li>
+      <li>Speak up, make decisions, take responsibility, share failures, and move forward.</li>
+      <li>Use time efficiently, so others can too.</li>
+      <li>Be themselves, have fun, and take care of themselves.</li>
+      <li>Welcome people of all personalities, backgrounds, and beliefs.</li>
+      <li>Care deeply about impact — for the company, the world, and its people.</li>
+    </ol>
+  </div>
+</div>
+
+<!-- Photo break -->
+<div class="photo-break fade-in">
+  <img src="../images/photos/img-007.png" alt="" loading="lazy">
+</div>
+
+<!-- Culture in Practice: Be Free -->
+<section class="text-block fade-in">
+  <h2>Be free and spark energy</h2>
+  <div class="principle"><strong>Get out there over playing it safe.</strong> <span>Know your limits, but push to expand them. Be curious in everything you do.</span></div>
+  <div class="principle"><strong>Lifting others up over individual achievement.</strong> <span>Help those around you win as a team. Show appreciation. Celebrate success together.</span></div>
+  <div class="principle"><strong>Being a creator over being a victim.</strong> <span>Solve your own tensions. Shape the organisation to fit your role's needs. Coach others. Create lasting change.</span></div>
+  <div class="principle"><strong>Iteration over perfection.</strong> <span>Fail and learn. Celebrate mistakes. Be bold, experiment, get feedback.</span></div>
+  <div class="principle"><strong>Trusting everyone over managing everything.</strong> <span>Give teammates a lot of rope — and a lot of responsibility. Trust everyone to make fair, thoughtful decisions.</span></div>
+</section>
+
+<!-- Photo + text: Grow Luscii to Last -->
+<div class="side-by-side fade-in">
+  <div class="side-photo">
+    <img src="../images/photos/img-017.png" alt="" loading="lazy">
+  </div>
+  <div class="side-text">
+    <h2>Grow Luscii to last</h2>
+    <ul>
+      <li><strong>Long term over short-term.</strong> Think about the long-term implications of your actions, even while delivering value every day.</li>
+      <li><strong>Luscii's impact over self-promotion.</strong> Do what's best for the company. Trust that the score takes care of itself when you do great work.</li>
+      <li><strong>Meaningful outcomes over hitting goals.</strong> Deliver impact. Sometimes that means exceeding targets. Sometimes it means pivoting when those targets aren't right.</li>
+      <li><strong>Saying no over spreading thin.</strong> Focus on a few things and do them really well.</li>
+      <li><strong>Purpose over opportunity.</strong> Stay true to what matters most. Say no to the rest.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- Show Courage -->
+<section class="text-block fade-in">
+  <h2>Show courage for integrity</h2>
+  <div class="principle"><strong>Growth mindset over ego.</strong> <span>Open-mindedness, humility, and eagerness for feedback from everyone — regardless of title or department. Own your mistakes.</span></div>
+  <div class="principle"><strong>Keeping others accountable over avoiding conflict.</strong> <span>Give frequent, fair, candid feedback. Keep high standards for yourself and others. Avoid drama, gossip, and politics.</span></div>
+  <div class="principle"><strong>100% in when you show up over counting hours.</strong> <span>Approach hard problems with energy. Have the courage to admit when you're not at your best, and take time to recover.</span></div>
+  <div class="principle"><strong>Data over opinions.</strong> <span>Let the best ideas win. Use data, metrics, vision, and reason to guide decisions.</span></div>
+  <div class="principle"><strong>Your whole heart over fitting in.</strong> <span>Be yourself. Speak up about what matters to you. Embrace diversity of personalities, backgrounds, and beliefs.</span></div>
+</section>
+
+<!-- Photo break -->
+<div class="photo-break fade-in">
+  <img src="../images/photos/img-033.png" alt="" loading="lazy">
+</div>
+
+<!-- How We Work -->
+<div class="side-by-side reversed fade-in">
+  <div class="side-photo">
+    <img src="../images/photos/img-021.png" alt="" loading="lazy">
+  </div>
+  <div class="side-text">
+    <h2>Pyramids are for mummies</h2>
+    <p>We don't believe in conventional hierarchy. We find the best people and trust them with the freedom to make decisions within their expertise. Clear accountabilities with the authority and responsibility to act. Fast decision-making by the people who know best.</p>
+    <p>That's why we practice Holacracy — a way of working where everyone has real freedom and real responsibility. It can feel scary, adventurous, and energising. But we help each other grow and succeed together.</p>
+  </div>
+</div>
+
+<!-- Remote work -->
+<section class="text-block fade-in">
+  <h2>Work where it works</h2>
+  <p>Luscii is a fully remote company. Your time is probably split between a shared office, home, the train, a partner's office, or even a patient's home. You know best what's needed to fill your roles — so you decide where and when you work.</p>
+  <p>Night owl who works 10:30 to 20:00? Early bird starting at 7:00 and out by 15:00? That's fine, as long as it works for the people you collaborate with.</p>
+  <p>We give you flexibility — and expect flexibility in return. Urgent fires to fight? We expect you to step up. But overtime should never become the norm. When you see crunch mode becoming chronic, raise it so we can solve it together.</p>
+</section>
+
+<!-- Photo break -->
+<div class="photo-break fade-in">
+  <img src="../images/photos/img-000.png" alt="" loading="lazy">
+</div>
+
+<!-- The People Context -->
+<section class="text-block fade-in">
+  <h2>The People Context</h2>
+  <p>Holacracy prioritises roles and accountabilities over individuals. That approach keeps us focused — but we're not robots. We're people with emotions, needs, and expectations.</p>
+  <p>That's why we distinguish two contexts. The <strong>Organisation Context</strong> is where the work happens — roles, responsibilities, tactical and governance meetings in service of purpose. The <strong>People Context</strong> is where our culture lives — social dynamics, relationships, values, assemblies, and everything that makes us human at work.</p>
+  <p>The People Context focuses on how we relate to each other and create an environment where everyone can thrive. It's our space to be authentic, connect with others, and shape our own culture.</p>
+</section>
+
+<!-- Freedom Clause -->
+<div class="side-by-side fade-in">
+  <div class="side-photo">
+    <img src="../images/photos/img-018.png" alt="" loading="lazy">
+  </div>
+  <div class="side-text">
+    <h2>The Freedom Clause</h2>
+    <p>Freedom and responsibility go hand in hand. If you misuse the trust and freedom you get, the natural response will be to make more rules. Don't blow it for the others.</p>
+    <p>Everyone has the freedom to make mistakes — but you should own them, and take responsibility to fix them.</p>
+    <p class="highlight" style="font-size: clamp(1rem, 1.5vw, 1.2rem);">The freedom of knowing what to do, when no one is telling you what to do.</p>
+  </div>
+</div>
+
+<!-- Photo break -->
+<div class="photo-break fade-in">
+  <img src="../images/photos/img-008.png" alt="" loading="lazy">
+</div>
+
+<!-- Personal Growth -->
+<section class="text-block fade-in">
+  <h2>Personal Growth</h2>
+  <p class="highlight">New Year Resolution #1: Be more awesome than last year.</p>
+  <p>What personal growth means is different for everyone at every stage of life. We encourage you to cultivate a growth mindset — a willingness to learn, try new things, fail, and push yourself forward.</p>
+  <p>You can spend up to 4% of your annual salary on training, conferences, books, external coaching, or however you choose. No approvals needed. You know best what you need to grow.</p>
+  <p>As a guideline, ask yourself: "Will this investment benefit both me and Luscii?"</p>
+  <p>We can't all become the same kind of expert. We need people with different skills, attitudes, and strengths. Think carefully about the right path for you — and know that we have dedicated coaches to help when you need direction.</p>
+</section>
+
+<!-- Green Gene -->
+<div class="side-by-side reversed fade-in">
+  <div class="side-photo">
+    <img src="../images/photos/img-014.png" alt="" loading="lazy">
+  </div>
+  <div class="side-text">
+    <h2>Green Gene</h2>
+    <p>As a remote-first, paperless company, we already reduce our environmental footprint by design. But we want to go further.</p>
+    <ul>
+      <li>Vegetarian catering as standard at company events.</li>
+      <li>A commitment to travelling as sustainably as possible.</li>
+      <li>A dedicated role focused on reducing our data centre footprint.</li>
+    </ul>
+    <p>Next up: carbon footprinting and a plan to reach net zero as quickly as possible.</p>
+  </div>
+</div>
+
+<!-- It Takes Hard Work -->
+<section class="text-block fade-in">
+  <h2>It takes hard work</h2>
+  <p>Our culture is not all sunshine and rainbows. Operating consciously takes real effort — and it's not for everyone. That's okay.</p>
+  <ul>
+    <li>There's no tolerance for drama, gossip, or politics. Everyone is expected to be all in.</li>
+    <li>We expect outsized outcomes and trust our team to meet their goals without micromanagement. Structural underperformance is actively addressed. Friendships don't influence performance assessment, salaries, or progression.</li>
+    <li>Everyone must be able to adapt rapidly. The team craves change and is dissatisfied with the status quo. Headcount and spending are not our default solution to problems.</li>
+  </ul>
+</section>
+
+<!-- Photo break -->
+<div class="photo-break fade-in">
+  <img src="../images/photos/img-005.png" alt="" loading="lazy">
+</div>
+
+<!-- Closing -->
+<section class="closing fade-in">
+  <p>When you're lost and don't know what to do, sit down, take a coffee, and read these values again. Hopefully you'll find inspiration and get back on the right path.</p>
+  <p>You can always reach out to the handbook author for more information, a clarifying question, or just a good conversation. And don't forget — we have growth counsellors who can help you on your journey at Luscii.</p>
+  <p>If you see something that isn't right — have the courage to speak up.</p>
+  <div class="sign-off">Luscii</div>
+</section>
+
+<footer>
+  We at Luscii &mdash; A living handbook
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, {
+    threshold: 0.1,
+    rootMargin: '0px 0px -40px 0px'
+  });
+
+  document.querySelectorAll('.fade-in').forEach(el => {
+    observer.observe(el);
+  });
+
+  window.addEventListener('scroll', () => {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = (scrollTop / docHeight) * 100;
+    document.getElementById('progress').style.width = progress + '%';
+  }, { passive: true });
+</script>
+
+</body>
+</html>
