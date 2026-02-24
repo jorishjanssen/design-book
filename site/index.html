@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Design to Hearten — OMRON Healthcare</title>
+  <style>
+    @font-face {
+      font-family: 'DIN Pro';
+      src: local('DIN Pro Light'), url('fonts/dinpro_light.otf') format('opentype');
+      font-weight: 300;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'DIN Pro';
+      src: local('DIN Pro'), url('fonts/dinpro.otf') format('opentype');
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'DIN Pro';
+      src: local('DIN Pro Medium'), url('fonts/dinpro_medium.otf') format('opentype');
+      font-weight: 500;
+      font-style: normal;
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'DIN Pro';
+      src: local('DIN Pro Bold'), url('fonts/dinpro_bold.otf') format('opentype');
+      font-weight: 700;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --text: #333;
+      --text-light: #666;
+      --bg: #fff;
+      --accent: #bbb;
+      --max-width: 1100px;
+      --section-gap: 7rem;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'DIN Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+    }
+
+    /* Progress bar */
+    .progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 2px;
+      background: var(--text);
+      z-index: 100;
+      width: 0;
+      transition: width 0.15s linear;
+    }
+
+    /* Cover */
+    .cover {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      position: relative;
+    }
+
+    .cover .jp-title {
+      font-size: clamp(2rem, 5vw, 3.8rem);
+      font-weight: 300;
+      letter-spacing: 0.25em;
+      margin-bottom: 0.75rem;
+    }
+
+    .cover .en-title {
+      font-size: clamp(0.9rem, 1.8vw, 1.3rem);
+      font-weight: 300;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      margin-bottom: 3rem;
+    }
+
+    .cover .brand {
+      font-size: 0.7rem;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .cover .scroll-hint {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--accent);
+      font-size: 0.65rem;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    .scroll-hint::after {
+      content: '';
+      width: 1px;
+      height: 40px;
+      background: var(--accent);
+      animation: scroll-line 2s ease-in-out infinite;
+    }
+
+    @keyframes scroll-line {
+      0% { transform: scaleY(0); transform-origin: top; }
+      50% { transform: scaleY(1); transform-origin: top; }
+      51% { transform: scaleY(1); transform-origin: bottom; }
+      100% { transform: scaleY(0); transform-origin: bottom; }
+    }
+
+    /* Manifesto */
+    .manifesto {
+      max-width: 620px;
+      margin: 0 auto;
+      padding: var(--section-gap) 2rem;
+      text-align: left;
+    }
+
+    .manifesto p {
+      font-size: clamp(0.95rem, 1.4vw, 1.08rem);
+      font-weight: 400;
+      line-height: 2.1;
+      color: var(--text-light);
+    }
+
+    .manifesto p strong {
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    /* Content sections */
+    .content-sections {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .section {
+      margin-bottom: var(--section-gap);
+    }
+
+    .section-text {
+      max-width: 680px;
+    }
+
+    .section-text h2 {
+      font-size: clamp(1.3rem, 2.2vw, 1.9rem);
+      font-weight: 300;
+      line-height: 1.35;
+      margin-bottom: 1.25rem;
+    }
+
+    .section-text p {
+      font-size: clamp(0.88rem, 1.1vw, 0.96rem);
+      font-weight: 400;
+      line-height: 1.9;
+      color: var(--text-light);
+    }
+
+    /* Layout A: Full-width photo + text below */
+    .layout-a .section-photo {
+      margin-bottom: 2.5rem;
+    }
+
+    .layout-a .section-text {
+      margin: 0 auto;
+      max-width: 680px;
+    }
+
+    /* Layout B: Photo + text side by side */
+    .layout-b {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    .layout-b .section-photo {
+      position: sticky;
+      top: 2rem;
+    }
+
+    .layout-b .section-text {
+      padding-top: 0.5rem;
+    }
+
+    .layout-b.reversed {
+      direction: rtl;
+    }
+
+    .layout-b.reversed > * {
+      direction: ltr;
+    }
+
+    /* Layout C: Two photos side by side + text below */
+    .layout-c .photo-pair {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .layout-c .section-text {
+      margin: 0 auto;
+      max-width: 680px;
+    }
+
+    /* Fade-in animations */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Closing */
+    .closing {
+      max-width: 620px;
+      margin: 0 auto;
+      padding: var(--section-gap) 2rem;
+    }
+
+    .closing p {
+      font-size: clamp(0.95rem, 1.4vw, 1.08rem);
+      font-weight: 400;
+      line-height: 2.1;
+      color: var(--text-light);
+      margin-bottom: 1.5rem;
+    }
+
+    .closing .sign-off {
+      font-size: 0.7rem;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-top: 3rem;
+    }
+
+    /* Footer */
+    footer {
+      padding: 3rem 2rem;
+      text-align: center;
+      font-size: 0.68rem;
+      font-weight: 400;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      :root {
+        --section-gap: 4.5rem;
+      }
+
+      .layout-b {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .layout-b .section-photo {
+        position: static;
+      }
+
+      .layout-b.reversed {
+        direction: ltr;
+      }
+
+      .layout-c .photo-pair {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .section-text {
+        max-width: 100%;
+      }
+
+      .layout-a .section-text,
+      .layout-c .section-text {
+        max-width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="progress-bar" id="progress"></div>
+
+<!-- Cover -->
+<section class="cover">
+  <div class="en-title fade-in" style="font-size: clamp(3rem, 8vw, 6.5rem); letter-spacing: 0.05em; margin-bottom: 2rem;">37.2°</div>
+  <div class="brand fade-in">OMRON Healthcare</div>
+  <div class="scroll-hint">Scroll</div>
+</section>
+
+<!-- Opening statement -->
+<section class="manifesto fade-in">
+  <p style="font-weight: 300; font-size: clamp(1.2rem, 2.2vw, 1.7rem); line-height: 1.6; color: var(--text);">
+    Bringing clarity to people's health by making clinical data human and accessible.
+  </p>
+</section>
+
+<!-- Manifesto -->
+<section class="manifesto fade-in">
+  <p>
+    Everyone wants to be healthy.
+    Deep down, we all hope to hold on to our well-being.<br><br>
+    But people forget. They cut corners, make excuses, and sometimes give up entirely.<br><br>
+    We don't judge those missteps. Instead, we try to understand them — and design around them.<br><br>
+    By paying close attention to how people actually feel and behave,
+    we create products that fit naturally into daily life,
+    stay close at hand, and offer a gentle push when it's needed.<br><br>
+    <strong>Design to hearten — from there, a smile begins.</strong><br><br>
+    A little help goes a long way. It's enough to steer someone
+    away from the easy path and toward a healthier one.
+    Providing that help, every day, is our mission.
+  </p>
+</section>
+
+<!-- Content Sections -->
+<div class="content-sections">
+
+  <!-- Blood Pressure — Layout A (full-width) -->
+  <section class="section layout-a">
+    <div class="section-photo fade-in">
+      <img src="images/photos/img-000.png" alt="Elderly man measuring blood pressure at home" loading="lazy">
+    </div>
+    <div class="section-text fade-in">
+      <h2>Not knowing the risk<br>may put you at risk.</h2>
+      <p>Regular blood pressure monitoring matters — but hypertension rarely has visible symptoms, so most people don't feel the urgency. We get it: everyone wants to eat what they like and live on their own terms. Yet blood pressure shifts with your habits, and consistent readings reveal what a single visit to the doctor cannot. That's why we focus on monitors so effortless they become part of your routine, not an interruption to it.</p>
+    </div>
+  </section>
+
+  <!-- Sleep / Temperature — Layout C (two photos) -->
+  <section class="section layout-c">
+    <div class="photo-pair fade-in">
+      <img src="images/photos/img-001.png" alt="Sleeping child monitored for activity" loading="lazy">
+      <img src="images/photos/img-002.png" alt="Taking a child's temperature gently" loading="lazy">
+    </div>
+    <div class="section-text fade-in">
+      <h2>Sleep like a baby. Take your temperature.</h2>
+      <p>Children are masters of sleep — they run and play all day, then drift off effortlessly. Adults rarely have it so easy. Between work and obligations, restful sleep becomes something you have to earn. We analyze your daily activity and sleep patterns to help you find your way back to the kind of rest that actually restores.</p>
+    </div>
+  </section>
+
+  <!-- Scale / BP Monitor — Layout C (two photos) -->
+  <section class="section layout-c">
+    <div class="photo-pair fade-in">
+      <img src="images/photos/img-004.png" alt="Feet standing on a body composition scale" loading="lazy">
+      <img src="images/photos/img-003.png" alt="Blood pressure monitor tucked into its place" loading="lazy">
+    </div>
+    <div class="section-text fade-in">
+      <h2>Tipping the scales. Everything in its place.</h2>
+      <p>On a cold morning, no one wants to step onto a freezing scale. We designed ours so your feet never feel the chill. A small detail — but small details are what turn a chore into a habit.</p>
+    </div>
+  </section>
+
+  <!-- Goals / Nebulizer — Layout C (two photos) -->
+  <section class="section layout-c">
+    <div class="photo-pair fade-in">
+      <img src="images/photos/img-005.png" alt="Setting real health goals" loading="lazy">
+      <img src="images/photos/img-006.png" alt="Child using a quiet nebulizer" loading="lazy">
+    </div>
+    <div class="section-text fade-in">
+      <h2>Set real goals. Quiet enough for life.</h2>
+      <p>Children dislike nebulizers, partly because of the noise. So we made ours quiet enough for kids to focus on games and books instead — quiet enough that treatment time feels like any other moment in the day.</p>
+    </div>
+  </section>
+
+  <!-- Family — Layout A (full-width) -->
+  <section class="section layout-a">
+    <div class="section-photo fade-in">
+      <img src="images/photos/img-007.png" alt="A whole family dealing with health conditions" loading="lazy">
+    </div>
+    <div class="section-text fade-in">
+      <h2>A whole family of conditions.</h2>
+      <p>When a child has asthma, the whole family feels it. Twice-daily treatments and sudden attacks take a toll on everyone. Our nebulizers are easy to clean and simple enough for a child to operate — a small relief for parents managing a difficult routine.</p>
+    </div>
+  </section>
+
+  <!-- Activity / Smile — Layout C (two photos) -->
+  <section class="section layout-c">
+    <div class="photo-pair fade-in">
+      <img src="images/photos/img-008.png" alt="Person walking with activity tracker" loading="lazy">
+      <img src="images/photos/img-009.png" alt="Child brushing teeth with a smile" loading="lazy">
+    </div>
+    <div class="section-text fade-in">
+      <h2>Every movement counts. Brush your way.</h2>
+      <p>As a child, movement was second nature. As an adult, it takes effort. An activity tracker makes the invisible visible — steps taken, energy spent — turning everyday movement into something you can actually see and build on.</p>
+    </div>
+  </section>
+
+  <!-- Snoring / Running — Layout B (photo + text) -->
+  <section class="section layout-b">
+    <div class="section-photo fade-in">
+      <img src="images/photos/img-010.png" alt="Person snoring in bed" loading="lazy">
+      <img src="images/photos/img-011.png" alt="Person starting a run" loading="lazy" style="margin-top: 1.5rem;">
+    </div>
+    <div class="section-text fade-in">
+      <h2>Setting a goal is easy.<br>Taking the first step is hard.</h2>
+      <p>The reasons to run are endless — fitness, stress relief, fresh air. But starting is always the hard part. Lacing up your shoes and strapping on a tracker can be just enough of a nudge to get you out the door. The first step is the only one that takes willpower.</p>
+    </div>
+  </section>
+
+  <!-- Boss / Healing touch — Layout C (two photos) -->
+  <section class="section layout-c">
+    <div class="photo-pair fade-in">
+      <img src="images/photos/img-012.png" alt="Stress at work affecting health" loading="lazy">
+      <img src="images/photos/img-013.png" alt="A healing touch from a thermometer" loading="lazy">
+    </div>
+    <div class="section-text fade-in">
+      <h2>Relief begins with a healing touch.</h2>
+      <p>A parent's hand on a child's forehead is often enough to bring comfort. That simple, soothing gesture inspired the way our thermometers feel against the skin — designed to echo the gentleness of a caring touch.</p>
+    </div>
+  </section>
+
+  <!-- Scale furniture — Layout A (full-width) -->
+  <section class="section layout-a">
+    <div class="section-photo fade-in">
+      <img src="images/photos/img-014.png" alt="A scale designed as beautiful furniture" loading="lazy">
+    </div>
+    <div class="section-text fade-in">
+      <h2>A scale is more than a scale.<br>It's furniture, too.</h2>
+      <p>Scales tend to end up hidden away — out of sight, out of mind. Ours is designed to look good enough to leave out, so it becomes part of your home and part of your daily routine.</p>
+    </div>
+  </section>
+
+  <!-- What's wrong / Pain — Layout B (photo + text) -->
+  <section class="section layout-b reversed">
+    <div class="section-photo fade-in">
+      <img src="images/photos/img-015.png" alt="What's wrong with me?" loading="lazy">
+      <img src="images/photos/img-016.png" alt="Person in pain at work" loading="lazy" style="margin-top: 1.5rem;">
+    </div>
+    <div class="section-text fade-in">
+      <h2>I'm not in a bad mood.<br>I'm in pain.</h2>
+      <p>Some days you can't stay home, even when your body says you should. For the fatigue and discomfort that don't show on the outside, our electrotherapy TENS devices offer quiet, steady relief — so you can get through the day on your own terms.</p>
+    </div>
+  </section>
+
+  <!-- Future health — Layout A (full-width) -->
+  <section class="section layout-a">
+    <div class="section-photo fade-in">
+      <img src="images/photos/img-017.png" alt="Man looking out at the future of his health" loading="lazy">
+    </div>
+    <div class="section-text fade-in">
+      <h2>It's hard to see the future,<br>yet no one pictures one<br>without their health.</h2>
+      <p>"I'll be fine." "It's probably nothing." We're remarkably good at dismissing our own health. But the simplest way to protect your future is to understand where you stand right now. Start with what you can measure today.</p>
+    </div>
+  </section>
+
+  <!-- Making friends — Layout B (photo + text) -->
+  <section class="section layout-b">
+    <div class="section-photo fade-in">
+      <img src="images/photos/img-018.png" alt="Child making friends with a nebulizer companion" loading="lazy">
+    </div>
+    <div class="section-text fade-in">
+      <h2>Making friends.</h2>
+      <p>Sometimes all you need is a friend. That simple truth inspired the design of our attachable animal figures — small companions that watch over children and turn nebulizer time into something a little less daunting.</p>
+    </div>
+  </section>
+
+  <!-- Praise / Body — Layout C (two photos) -->
+  <section class="section layout-c">
+    <div class="photo-pair fade-in">
+      <img src="images/photos/img-020.png" alt="Adult receiving positive feedback from activity tracker" loading="lazy">
+      <img src="images/photos/img-019.png" alt="It's my body to take care of" loading="lazy">
+    </div>
+    <div class="section-text fade-in">
+      <h2>Grown-ups like praise too. It's my body.</h2>
+      <p>A word of encouragement goes further than you'd think. That's why our activity trackers celebrate your progress — because everyone, not just children, does better when they feel recognized.</p>
+    </div>
+  </section>
+
+  <!-- Walking energy — Layout B (photo + text) -->
+  <section class="section layout-b reversed">
+    <div class="section-photo fade-in">
+      <img src="images/photos/img-021.png" alt="Person walking with energy and purpose" loading="lazy">
+    </div>
+    <div class="section-text fade-in">
+      <h2>Energy of walking<br>connects us with<br>energy of living.</h2>
+      <p>Walking is good for the body, but it's good for the mind too. Being outside leads to new discoveries, new encounters, new perspectives. We design tools that make it easier to keep moving — because every walk is an investment in how you feel.</p>
+    </div>
+  </section>
+
+  <!-- Being held — Layout A (full-width) -->
+  <section class="section layout-a">
+    <div class="section-photo fade-in">
+      <img src="images/photos/img-022.png" alt="Child being held while using nebulizer" loading="lazy">
+    </div>
+    <div class="section-text fade-in">
+      <h2>Being held,<br>helps with healing.</h2>
+      <p>Where do children feel safest? In their parent's arms. That's why our nebulizers work in any position — even lying down. When a child can receive treatment wherever they feel most at ease, the experience becomes a little less clinical and a lot more human.</p>
+    </div>
+  </section>
+
+  <!-- Monday BP / Pain — Layout B (photo + text) -->
+  <section class="section layout-b">
+    <div class="section-photo fade-in">
+      <img src="images/photos/img-023.png" alt="Monday morning blood pressure reading" loading="lazy">
+      <img src="images/photos/img-024.png" alt="Person living with chronic pain" loading="lazy" style="margin-top: 1.5rem;">
+    </div>
+    <div class="section-text fade-in">
+      <h2>Monday's blood pressure<br>doesn't lie.</h2>
+      <p>There's a phenomenon called Monday Surge — stress spikes blood pressure at the start of the work week. After nearly fifty years of studying cardiovascular health worldwide, we know that good design isn't just about accuracy. It's about supporting the emotional reality of the people who rely on it.</p>
+    </div>
+  </section>
+
+  <!-- Temperature world / Touch — Layout C (two photos) -->
+  <section class="section layout-c">
+    <div class="photo-pair fade-in">
+      <img src="images/photos/img-025.png" alt="Thermometers for people around the world" loading="lazy">
+      <img src="images/photos/img-027.png" alt="The power of human touch in healing" loading="lazy">
+    </div>
+    <div class="section-text fade-in">
+      <h2>Taking the world's temperature. The power of human touch.</h2>
+      <p>A fever is unsettling enough — not being able to check your temperature makes it worse. We believe thermometers should be accessible to everyone, everywhere. And as we work toward that, the products themselves should feel reassuring the moment you pick them up.</p>
+    </div>
+  </section>
+
+  <!-- Heartthrob — Layout C (two photos) -->
+  <section class="section layout-c">
+    <div class="photo-pair fade-in">
+      <img src="images/photos/img-026.png" alt="Nervousness at the doctor's office" loading="lazy">
+      <img src="images/photos/img-028.png" alt="Child brushing teeth after eating well" loading="lazy">
+    </div>
+    <div class="section-text fade-in">
+      <h2>He's not my heartthrob. Eat well, brush well.</h2>
+      <p>You know the feeling — your blood pressure spikes the moment you walk into the doctor's office. It's so common it has a name: White Coat Hypertension. We design medical equipment that feels approachable, because healthcare works better when the tools don't add to the anxiety.</p>
+    </div>
+  </section>
+
+  <!-- Flexible thermometer — Layout B (photo + text) -->
+  <section class="section layout-b reversed">
+    <div class="section-photo fade-in">
+      <img src="images/photos/img-029.png" alt="Flexible thermometer gentle on children" loading="lazy">
+    </div>
+    <div class="section-text fade-in">
+      <h2>A comfortable thermometer<br>is a flexible one.</h2>
+      <p>To a child, thermometers feel cold and rigid — something to endure. Ours bends gently against the skin, staying in place even when little ones squirm. A flexible tip is a small thing, but it makes daily readings calmer for everyone.</p>
+    </div>
+  </section>
+
+  <!-- Weight mgmt — Layout C (two photos) -->
+  <section class="section layout-c">
+    <div class="photo-pair fade-in">
+      <img src="images/photos/img-031.png" alt="Managing weight with smart tools" loading="lazy">
+      <img src="images/photos/img-030.png" alt="Teeth should last a lifetime" loading="lazy">
+    </div>
+    <div class="section-text fade-in">
+      <h2>Weight management. Your teeth should last.</h2>
+      <p>We've gotten good at managing our schedules, but managing our bodies? Not so much. The key is consistency: small, daily check-ins that reveal trends before they become problems. Our body composition monitors sync with your phone, turning a quick step on the scale into lasting insight.</p>
+    </div>
+  </section>
+
+  <!-- Childhood obesity — Layout A (full-width) -->
+  <section class="section layout-a">
+    <div class="section-photo fade-in">
+      <img src="images/photos/img-032.png" alt="Children playing sports to fight obesity" loading="lazy">
+    </div>
+    <div class="section-text fade-in">
+      <h2>Let's fight childhood obesity.</h2>
+      <p>Sports and activity aren't enough on their own — when a child's diet is out of balance, the risk of obesity is real. In a world full of conflicting health advice, we believe in sharing clear, honest information that families can trust.</p>
+    </div>
+  </section>
+
+  <!-- Walks of life — Layout A (full-width) -->
+  <section class="section layout-a">
+    <div class="section-photo fade-in">
+      <img src="images/photos/img-033.png" alt="People from all walks of life staying healthy" loading="lazy">
+    </div>
+    <div class="section-text fade-in">
+      <h2>The different walks of life.</h2>
+      <p>A walk is good. A daily walk is transformative — for your muscles, your heart, your blood pressure, your mind. Pair it with a tracker and the benefits become visible, reinforcing the habit. Because everyone deserves to feel in step with their own health.</p>
+    </div>
+  </section>
+
+</div>
+
+<!-- Closing -->
+<section class="closing fade-in">
+  <p>Design to hearten goes beyond beauty and usability.</p>
+  <p>There are still so many clues for healthier living hidden in our everyday routines. From infants to the elderly, for the well-being of all people — our mission is to understand human strengths and vulnerabilities, and to create products that offer a little help, every day.</p>
+  <p>This collection is meant to be explored in any order. Browse casually or read closely. What catches your eye will depend on the moment — and on who you're thinking of.</p>
+  <p>Come back to it whenever you like.</p>
+  <div class="sign-off">OMRON Healthcare Co., Ltd.</div>
+</section>
+
+<footer>
+  &copy; OMRON Healthcare Co., Ltd. 2018, All Rights Reserved.
+</footer>
+
+<script>
+  // Intersection Observer for fade-in animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, {
+    threshold: 0.1,
+    rootMargin: '0px 0px -40px 0px'
+  });
+
+  document.querySelectorAll('.fade-in').forEach(el => {
+    observer.observe(el);
+  });
+
+  // Progress bar
+  window.addEventListener('scroll', () => {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = (scrollTop / docHeight) * 100;
+    document.getElementById('progress').style.width = progress + '%';
+  }, { passive: true });
+</script>
+
+</body>
+</html>
